@@ -1,0 +1,616 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>MH Mind</title>
+    <link type="text/css" rel="stylesheet" href="style/jsmind.css" />
+    <style type="text/css">
+        body {background:#f4f4f4; margin:0; padding: 0; font-family: Helvetica, Arial, sans-serif;}
+        li{margin-top:2px; margin-bottom:2px;}
+        button{width:140px; height: 40px; border: none; box-shadow: none; background:transparent; color: black; margin: 5px 5px; padding: 5px;}
+        #layout{width:1230px;width:100%;}
+        #jsmind_nav{width:100%; height:70px;border-bottom:solid 1px #666;overflow:auto;background-color: #ccc; margin:0;padding:0;}
+        .file_input{width:300px; height: 30px; border: none; box-shadow: none; background-color: #f4f4f4; color: black;}
+        button.iconbtn{width:40px;}
+        button.iconsbtn{width:60px;}
+        button.iconswbtn{width:80px; padding-left:2px; padding-right: 2px;}
+        button.iconsxbtn{width:100px; padding-left:2px; padding-right: 2px;}
+        button.flrtbtn{float:right;}
+        button:hover {background-color: #808080;}
+        .smtext {font-size: .85em;}
+
+        #jsmind_container{
+            margin: 0 auto;
+            width:1000px;            
+            min-width: 600px; 
+            height:600px;
+            background:#f4f4f4;
+            clear:both;
+        }
+        #nodes_menu, #other_menu, #theme_layout, #export_import {
+            padding: 0px 10px 10px 10px;
+            color: black;            
+        }
+        #nodes_menu {float:right;}
+        #other_menu {float:left;}
+        #theme_layout, #export_import{
+            margin: 0;
+            height: 60px;
+            padding-top: 5px;
+            background-color: #ccc;
+            display: none;
+            clear:both;
+            border-bottom:solid 1px #666;
+        }
+        #expand_level {display:none;}
+        #expside {
+            width: 40%;
+            float:left;
+            margin: 0;
+            background-color: #ccc;
+        }
+        #impside {
+            width: 50%;
+            float:left;
+            margin: 0;
+            background-color: #ccc;
+        }
+        p, label {
+            font: .85em Helvetica, Arial, sans-serif;
+        }
+        #themecolor, #bgcolorpick {margin-top: 0px; width:140px; height: 30px; border: none; box-shadow: none; background:#f4f4f4;}
+
+        #info {display:none; margin:-50px 10px 10px 50px; width:90%; }
+        #info p, ul li {font-size:.75em; }
+
+        @media all and (max-width: 939px) {
+            #expside, #impside {float:none; width: 100%; }
+       }
+        @media all and (max-width: 719px) {
+            #jsmind_nav{height:180px;}
+            button{margin:5px 2px;}
+        }
+        @media all and (min-width: 720px) and (max-width: 839px) {
+            #jsmind_nav{height:180px;}
+            button{margin:5px 5px;}
+        }
+        @media all and (min-width: 840px) and (max-width: 939px) {
+            #jsmind_nav{height:130px;}
+            button{margin:5px 1px;}
+        }
+        @media all and (min-width: 940px) and (max-width: 1199px) {
+            #jsmind_nav{height:130px;}
+            button{margin:5px 6px;}
+        }
+        @media all and (min-width: 1200px) and (max-width: 1359px) {
+            #jsmind_nav{height:70px;}
+            button{margin:5px 4px;}
+        }
+        @media all and (min-width: 1360px) {
+            #jsmind_nav{height:70px;}
+            button{margin:5px 2px;}
+            #expand_level {display:block;}
+        }
+        @media all and (min-width: 1400px) {
+            button{margin:5px 5px;}
+        }
+        @media all and (min-width: 1600px) {
+            button{margin:5px 10px;}
+        }
+        @media all and (max-width: 939px) {
+            #export_import {
+                height: 120px;
+            }
+        }
+        @media all and (max-width: 670px) {
+           #themecolor {width:100px; }
+        }
+    </style>
+</head>
+<body>
+<div id="layout">
+    <div id="jsmind_nav">
+        <div id="nodes_menu">
+            <button class="iconbtn" id="zoom-in-button" title="Zoom In" onclick="zoomIn();"><img src="images/glyphicons-215-resize-small.png"></button>
+            <button class="iconbtn" id="zoom-out-button" title="Zoom Out" onclick="zoomOut();"><img src="images/glyphicons-216-resize-full.png"></button>
+
+            <button class="iconswbtn" title="Toggle Import Export Panel" onclick="filesmenu();"><img src="images/glyphicons-359-file-import.png"> <img src="images/glyphicons-360-file-export.png"></button>
+            <button class="iconswbtn" title="Toggle Edit Theme and Layout Panel" onclick="layoutmenu();"><img src="images/glyphicons-151-edit.png"> <img src="images/glyphicons-37-file.png"></button>
+       </div>
+
+        <div id="other_menu">
+            <button class="iconsbtn" title="Add a Text Node" onclick="add_node();"><img src="images/glyphicons-433-plus.png"> <img src="images/glyphicons-154-unchecked.png"></button>
+            <button class="iconswbtn" title="Add an Image Node" onclick="add_image_node();"><img src="images/glyphicons-433-plus.png"> <img src="images/glyphicons-139-picture.png"></button>
+            <select title="Select Node Background Color" id="bgcolorpick">
+                <option value="#ffffff">white</option>
+                <option value="#cccccc">pale grey</option>
+                <option value="#999999">light grey</option>
+                <option value="#666666" selected="selected">medium grey</option>
+                <option value="#333333">dark grey</option>
+                <option value="#000000">black</option>
+                <option value="#003366">dark blue</option>
+                <option value="#0066cc">medium blue</option>
+                <option value="#cce6ff">light blue</option>
+                <option value="#006633">dark green</option>
+                <option value="#00cc66">medium green</option>
+                <option value="#ccffe6">light green</option>
+                <option value="#cc0000">red</option>
+                <option value="#800000">maroon</option>
+                <option value="#DC143C">crimson</option>
+                <option value="#800080">purple</option>
+                <option value="#8A2BE2">blue violet</option>
+                <option value="#4B0082">indigo</option>
+                <option value="#483D8B">dark slate blue</option>
+                <option value="#008080">teal</option>
+                <option value="#8B4513">saddle brown</option>
+                <option value="#B8860B">dark golden rod</option>
+                <option value="#FF8C00">dark orange</option>
+                <option value="#808000">olive</option>
+                <option value="#BDB76B">dark khaki</option>
+                <option value="#F5DEB3">wheat</option>
+            </select>
+            <button class="iconbtn" title="Change Background Color of Node to Selected Color" onclick="change_background_color();"><img src="images/glyphicons-607-text-background.png"></button>
+            <button class="iconswbtn" title="Change Node Text Color Toggled Black or White" onclick="change_text_color();"><sup><strong>B/W</strong></sup> <img src="images/glyphicons-606-text-color.png"></button>
+            <button class="iconsbtn" title="Set Node as First Child" onclick="move_to_first();"><img src="images/glyphicons-154-unchecked.png"> <img src="images/glyphicons-188-more.png"></button>
+            <button class="iconsbtn" title="Set Node as Last Child" onclick="move_to_last();"><img src="images/glyphicons-188-more.png"> <img src="images/glyphicons-154-unchecked.png"></button>
+            <button class="iconsbtn" title="Remove This Node" onclick="remove_node();"><img src="images/glyphicons-208-remove.png"> <img src="images/glyphicons-154-unchecked.png"></button>
+            <button class="iconswbtn" title="Toggle Children Shown or Hidden" onclick="toggle();"><img src="images/glyphicons-545-eye-plus.png"> <img src="images/glyphicons-546-eye-minus.png"></button>
+            <button class="iconswbtn" title="Toggle All Children Nodes" id="collapse_expand_btn" onclick="collapse_expand_all();"><img src="images/glyphicons-172-fast-backward.png"> <img src="images/glyphicons-154-unchecked.png"></button>
+        </div>
+        <div id="expand_level">
+            <button class="iconsbtn" title="Expand Children Nodes to Level 2" onclick="expand_to_level2();"><img src="images/glyphicons-388-log-out.png"> <img src="images/glyphicons-388-log-out.png"></button>
+            <button class="iconswbtn" title="Expand Children Nodes to Level 3" onclick="expand_to_level3();"><img src="images/glyphicons-388-log-out.png"> <img src="images/glyphicons-388-log-out.png"> <img src="images/glyphicons-388-log-out.png"></button>
+        </div>
+    </div>
+        <div id="theme_layout">
+            <button class="flrtbtn iconbtn" title="Close Edit Theme and Layout Panel" onclick="close_theme_layout();"><img src="images/glyphicons-370-collapse-top.png"></button>
+            <label for="themecolor">theme:</label>
+            <select id="themecolor" onchange="set_theme(this.value);">
+                <option value="light" selected="selected">light</option>
+                <option value="dark">dark</option>
+                <option value="blue">blue</option>
+            </select>
+            <span>&nbsp;&nbsp;&nbsp;</span>
+            <button class="iconswbtn" title="Toggle Map Editing Disabled or Enabled" onclick="toggle_editable(this);"><img src="images/glyphicons-199-ok-circle.png"> <img src="images/glyphicons-31-pencil.png"></button>
+            <span>&nbsp;&nbsp;&nbsp;</span>
+            <button class="iconbtn" title="Reset Mind Map" onclick="reset_map();"><img src="images/glyphicons-82-refresh.png"></button>
+        </div> 
+
+        <div id="export_import">
+            <button class="flrtbtn iconbtn" title="Close Import Export Panel" onclick="close_export_import();"><img src="images/glyphicons-370-collapse-top.png"></button>
+            <div id="expside">
+                <span class="smtext">download file: </span>
+                <button class="iconswbtn" title="Download Map as JSON File" onclick="save_file();"><img src="images/glyphicons-201-download.png"> <sup><strong>file</strong></sup></button>
+                <button class="iconsxbtn" title="Download Screenshot of Map" onclick="screen_shot();"><img src="images/glyphicons-201-download.png"> <sup><strong>screenshot</strong></sup></button>
+            </div>
+            <div id="impside">
+                <span class="smtext">import file: </span>
+                <input id="file_input" class="file_input" type="file"/>
+                <button class="iconbtn" title="Upload User JSON Map File" onclick="open_file();"><img src="images/glyphicons-202-upload.png"></button>
+            </div>
+        </div>
+</div>
+    <div id="jsmind_container"></div>
+    <div style="display:none">
+      <input class="file" type="file" id="image-chooser" accept="image/*"/>
+    </div>
+
+<div id="footer">
+    <button class="iconbtn" id="showinfobtn" title="Show Copyright Info" onclick="showinfo();"><img src="images/glyphicons-196-info-sign.png"></button>
+    <div id="info">
+        <p>Copyright &copy; 2014-2015, ZHANG ZHIGANG &#60;hizzgdev@163.com&#62;<br>
+        All rights reserved.</p>
+        <p>Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:</p>
+        <ul>
+            <li>Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.</li>
+            <li>Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.</li>
+            <li>Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.</li>
+        </ul>
+        <p>THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &ldquo;AS IS&rdquo; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
+        <button class="flrtbtn iconbtn" title="Close Info" onclick="close_info();"><img src="images/glyphicons-370-collapse-top.png"></button></p>
+    </div>
+</div>
+
+
+<script type="text/javascript" src="js/jsmind.js"></script>
+<script type="text/javascript" src="js/jsmind.draggable.js"></script>
+<script type="text/javascript" src="js/jsmind.screenshot.js"></script>
+<script type="text/javascript">
+    var _jm = null;
+    function open_empty(){
+        var options = {
+            container:'jsmind_container',
+            theme:'light',
+            editable:true
+        }
+        _jm = jsMind.show(options);
+        // _jm = jsMind.show(options,mind);
+    }
+
+
+    function open_ajax(){
+        var mind_url = 'data_example.json';
+        jsMind.util.ajax.get(mind_url,function(mind){
+            _jm.show(mind);
+        });
+    }
+
+    function screen_shot(){
+        _jm.screenshot.shootDownload();
+    }
+
+    function show_data(){
+        var mind_data = _jm.get_data();
+        var mind_string = jsMind.util.json.json2string(mind_data);
+        prompt_info(mind_string);
+    }
+
+    function save_file(){
+        var mind_data = _jm.get_data();
+        var mind_name = mind_data.meta.name;
+        var mind_str = jsMind.util.json.json2string(mind_data);
+        jsMind.util.file.save(mind_str,'text/jsmind',mind_name+'.jm');
+    }
+    
+    function open_file(){
+        var file_input = document.getElementById('file_input');
+        var files = file_input.files;
+        if(files.length > 0){
+            var file_data = files[0];
+            jsMind.util.file.read(file_data,function(jsmind_data, jsmind_name){
+                var mind = jsMind.util.json.string2json(jsmind_data);
+                if(!!mind){
+                    _jm.show(mind);
+                }else{
+                    prompt_info('can not open this file as mindmap');
+                }
+            });
+        }else{
+            prompt_info('please choose a file first')
+        }
+    }
+
+    function select_node(){
+        var nodeid = 'other';
+        _jm.select_node(nodeid);
+    }
+
+    function show_selected(){
+        var selected_node = _jm.get_selected_node();
+        if(!!selected_node){
+            prompt_info(selected_node.topic);
+        }else{
+            prompt_info('nothing');
+        }
+    }
+
+    function get_selected_nodeid(){
+        var selected_node = _jm.get_selected_node();
+        if(!!selected_node){
+            return selected_node.id;
+        }else{
+            return null;
+        }
+    }
+
+    function add_node(){
+        var selected_node = _jm.get_selected_node(); // as parent of new node
+        if(!selected_node){prompt_info('please select a node first.');return;}
+
+        var nodeid = jsMind.util.uuid.newid();
+        var topic = '* Node_'+nodeid.substr(0,5)+' *';
+        var node = _jm.add_node(selected_node, nodeid, topic);
+    }
+
+    var imageChooser = document.getElementById('image-chooser');
+
+    imageChooser.addEventListener('change', function (event) {
+        // Read file here.
+        var reader = new FileReader();
+        reader.onloadend = (function () {
+            var selected_node = _jm.get_selected_node();
+            var nodeid = jsMind.util.uuid.newid();
+            var topic = undefined;
+            var data = {
+                "background-image": reader.result,
+                "width": "100",
+                "height": "100"};
+            var node = _jm.add_node(selected_node, nodeid, topic, data);
+            //var node = _jm.add_image_node(selected_node, nodeid, reader.result, 100, 100);
+        //add_image_node:function(parent_node, nodeid, image, width, height, data, idx, direction, expanded){
+        });
+
+        var file = imageChooser.files[0];
+        if (file) {
+            reader.readAsDataURL(file);
+        };
+
+    }, false);
+
+    function add_image_node(){
+        var selected_node = _jm.get_selected_node(); // as parent of new node
+        if(!selected_node){
+            prompt_info('please select a node first.');
+            return;
+        }
+
+        imageChooser.focus();
+        imageChooser.click();
+    }
+
+
+    function move_to_first(){
+        var selected_id = get_selected_nodeid();
+        if(!selected_id){prompt_info('please select a node first.');return;}
+
+        _jm.move_node(selected_id,'_first_');
+    }
+
+    function move_to_last(){
+        var selected_id = get_selected_nodeid();
+        if(!selected_id){prompt_info('please select a node first.');return;}
+
+        _jm.move_node(selected_id,'_last_');
+    }
+
+/*    function move_node(){
+        // move a node before another
+        _jm.move_node('other','open');
+    }
+*/
+    function remove_node(){
+        var selected_id = get_selected_nodeid();
+        if(!selected_id){prompt_info('please select a node first.');return;}
+
+        _jm.remove_node(selected_id);
+    }
+
+
+    function change_text_color(){
+        var selected_id = get_selected_nodeid();
+        if(!selected_id){prompt_info('please select a node first.');return;}
+
+        _jm.set_node_color(selected_id, null, '#000');
+    }
+
+    function change_background_color(){
+        var colorpick = document.getElementById("bgcolorpick").value;
+        var selected_id = get_selected_nodeid();
+        if(!selected_id){prompt_info('please select a node first.');return;}
+        _jm.set_node_color(selected_id, colorpick, null);       
+//        _jm.set_node_color(selected_id, '#eee', null);
+    }
+ 
+
+    function change_background_image(){
+        var selected_id = get_selected_nodeid();
+        if(!selected_id){prompt_info('please select a node first.');return;}
+
+        _jm.set_node_background_image(selected_id, 'ant.png', 100, 100);
+    }
+
+    function set_theme(theme_name){
+        _jm.set_theme(theme_name);
+    }
+
+    var zoomInButton = document.getElementById("zoom-in-button");
+    var zoomOutButton = document.getElementById("zoom-out-button");
+
+    function zoomIn() {
+        if (_jm.view.zoomIn()) {
+            zoomOutButton.disabled = false;
+        } else {
+            zoomInButton.disabled = true;
+        };
+    };
+
+    function zoomOut() {
+        if (_jm.view.zoomOut()) {
+            zoomInButton.disabled = false;
+        } else {
+            zoomOutButton.disabled = true;
+        };
+    };
+
+    function toggle_editable(btn){
+        var editable = _jm.get_editable();
+        if(editable){
+            _jm.disable_edit();
+        //    btn.innerHTML = 'enable editable';
+            btn.innerHTML = '<img src="images/glyphicons-200-ban-circle.png"> <img src="images/glyphicons-31-pencil.png">';
+        }else{
+            _jm.enable_edit();
+//            btn.innerHTML = 'disable editable';
+            btn.innerHTML = '<img src="images/glyphicons-199-ok-circle.png"> <img src="images/glyphicons-31-pencil.png">';
+        }
+    }
+
+
+    function resize_jsmind(){
+        _jm.resize();
+    }
+    // this method change size of container, perpare for adjusting jsmind
+    function change_container(widthsize){
+        var c = document.getElementById('jsmind_container');
+        if (widthsize === 'xxlarge') {
+            c.style.width = '1890px';
+            c.style.height = '1200px';
+       } else if (widthsize === 'xlarge3') {
+            c.style.width = '1690px';
+            c.style.height = '1000px';
+       } else if (widthsize === 'xlarge2') {
+            c.style.width = '1590px';
+            c.style.height = '940px';
+       } else if (widthsize === 'xlarge1') {
+            c.style.width = '1490px';
+            c.style.height = '900px';
+       } else if (widthsize === 'large2') {
+            c.style.width = '1390px';
+            c.style.height = '900px';
+       } else if (widthsize === 'large1') {
+            c.style.width = '1290px';
+            c.style.height = '800px';
+        } else if (widthsize === 'medium2') {
+            c.style.width = '1190px';
+            c.style.height = '740px';
+        } else if (widthsize === 'small2') {
+            c.style.width = '930px';
+            c.style.height = '600px';
+        } else if (widthsize === 'small1') {
+            c.style.width = '760px';
+            c.style.height = '900px';
+        } else if (widthsize === 'xsmall2') {
+            c.style.width = '630px';
+            c.style.height = '900px';
+        } else if (widthsize === 'xsmall1') {
+                c.style.width = '600px';
+                c.style.height = '300px';
+        } else  { //medium1
+            c.style.width = '990px';
+            c.style.height = '700px';
+        }
+        resize_jsmind();
+    }
+
+
+    function setlayout() {
+        var w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+//    alert('window width is ' + w);
+        if (w <= '640') {
+            change_container('xsmall1');
+        } else if ((w > '640') && (w < '768')) {
+            change_container('xsmall2');
+        } else if ((w >= '768') && (w < '940')) {
+            change_container('small1');
+        } else if ((w >= '940') && (w < '1000')) {
+            change_container('small2');
+        } else if ((w >= '1000') && (w < '1200')) {
+            change_container('medium1');
+        } else if ((w >= '1200') && (w < '1300')) {
+            change_container('medium2');
+        } else if ((w >= '1300') && (w < '1400')) {
+            change_container('large1');
+        } else if ((w >= '1400') && (w < '1500')) {
+            change_container('large2');
+        } else if ((w >= '1500') && (w < '1600')) {
+            change_container('xlarge1');
+        } else if ((w >= '1600') && (w < '1700')) {
+            change_container('xlarge2');
+        } else if ((w >= '1700') && (w < '1900')) {
+            change_container('xlarge3');
+        } else {
+            if (w >= '1900') {
+                change_container('xxlarge');
+            }
+        }
+    }      
+
+    function expand(){
+        var selected_id = get_selected_nodeid();
+        if(!selected_id){prompt_info('please select a node first.');return;}
+
+        _jm.expand_node(selected_id);
+    }
+
+    function collapse(){
+        var selected_id = get_selected_nodeid();
+        if(!selected_id){prompt_info('please select a node first.');return;}
+
+        _jm.collapse_node(selected_id);
+    }
+
+    function toggle(){
+        var selected_id = get_selected_nodeid();
+        if(!selected_id){prompt_info('please select a node first.');return;}
+
+        _jm.toggle_node(selected_id);
+    }
+
+/*
+    function expand_all(){
+        _jm.expand_all();
+    }
+    function collapse_all(){
+        _jm.collapse_all();
+    }
+*/
+
+    function expand_to_level2(){
+        _jm.expand_to_depth(2);
+    }
+
+    function expand_to_level3(){
+        _jm.expand_to_depth(3);
+    }
+
+    function collapse_expand_all(){
+        if (document.getElementById('collapse_expand_btn').innerHTML === '<img src="images/glyphicons-172-fast-backward.png"> <img src="images/glyphicons-154-unchecked.png">') {
+            document.getElementById('collapse_expand_btn').innerHTML = '<img src="images/glyphicons-154-unchecked.png"> <img src="images/glyphicons-178-fast-forward.png">';
+            _jm.collapse_all();
+        } else {
+            document.getElementById('collapse_expand_btn').innerHTML = '<img src="images/glyphicons-172-fast-backward.png"> <img src="images/glyphicons-154-unchecked.png">'
+            _jm.expand_all();            
+        }
+    }
+
+    function prompt_info(msg){
+        alert(msg);
+    }
+
+    function layoutmenu() {
+        if (document.getElementById("theme_layout").style.display === 'block') {
+            document.getElementById("theme_layout").style.display = 'none';
+        } else {
+            document.getElementById("theme_layout").style.display = 'block';
+        }
+    }
+    function filesmenu() {
+        if (document.getElementById("export_import").style.display === 'block') {
+            document.getElementById("export_import").style.display = 'none';
+        } else {
+            document.getElementById("export_import").style.display = 'block';
+        }
+    }
+
+
+    function reset_map() {
+        var checkstr = window.confirm("Sure you want to delete this mind map?");
+        if (checkstr === false) {
+            return false;
+        }
+        document.getElementById("jsmind_container").innerHTML = "";
+        open_empty();
+    }
+
+    function close_theme_layout() {
+        document.getElementById("theme_layout").style.display = 'none';
+    }
+
+    function close_export_import() {
+        document.getElementById("export_import").style.display = 'none';
+    }
+
+
+    function close_info() {
+        document.getElementById("info").style.display = 'none';
+    }
+
+    function showinfo() {
+        if (document.getElementById("info").style.display === 'block') {
+            document.getElementById("info").style.display = 'none';
+        } else {
+            document.getElementById("info").style.display = 'block';
+        }
+    }
+
+    window.onresize = function() {
+        setlayout();
+    }
+    open_empty();
+    setlayout();
+
+
+</script>
+</body>
+</html>
