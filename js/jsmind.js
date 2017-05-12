@@ -10,12 +10,12 @@
     'use strict';       
     // set 'jsMind' as the library name.
     // __name__ should be a const value, Never try to change it easily.
-    var __name__ = 'jsMind';
+    var __name__ = 'MHMind';
     // library version
-    var __version__ = '0.4.3';
+    var __version__ = '0.1.0';
     // author
 //    var __author__ = 'hizzgdev@163.com';
-    var __author__ = 'ZHANG ZHIGANG';
+    var __author__ = 'MicroHealth, LLC';
 
     // an noop function define
     var _noop = function(){};
@@ -374,7 +374,7 @@
                 }
 
                 if(node.parent.isroot){
-                    if(direction == jsMind.direction.left){
+                    if(direction == MHMind.direction.left){
                         node.direction = direction;
                     }else{
                         node.direction = jm.direction.right;
@@ -1331,14 +1331,13 @@
                 var node = this.mind.add_node(parent_node, nodeid, topic, data);
                 if(!!node){
                     this.view.add_node(node);
-                    if (parent_node.isroot) {
-                        node._data.view.element.className += ' mainhead'; 
-                    }
+                    presentmap_saved = false;
                     this.layout.layout();
                     this.view.show(false);
                     this.view.reset_node_custom_style(node);
                     this.expand_node(parent_node);
                     this.invoke_event_handle(jm.event_type.edit,{evt:'add_node',data:[parent_node.id,nodeid,topic,data],node:nodeid});
+                    document.getElementById("savebtn").innerHTML = '<img src="images/glyphicons-447-floppy-save.png" class="wh19x19">';
                 }
                 return node;
             }else{
@@ -1412,7 +1411,7 @@
                 return false;
             }
         },
-
+/*
         update_node:function(nodeid, topic){
             if(this.get_editable()){
                 if(jm.util.text.is_empty(topic)){
@@ -1437,6 +1436,34 @@
                 return;
             }
         },
+*/
+
+        update_node:function(nodeid, topic){
+            if(this.get_editable()){
+                if(jm.util.text.is_empty(topic)){
+                    logger.warn('fail, topic can not be empty');
+                    return;
+                }
+                var node = this.get_node(nodeid);
+                if(!!node){
+                    if(node.topic === topic){
+                        logger.info('nothing changed');
+                        this.view.update_node(node);
+                        return;
+                    }
+                    node.topic = topic;
+                    this.view.update_node(node);
+                    this.layout.layout();
+                    this.view.show(false);
+                    this.invoke_event_handle(jm.event_type.edit,{evt:'update_node',data:[nodeid,topic],node:nodeid});
+                    presentmap_saved = false;
+                    document.getElementById("savebtn").innerHTML = '<img src="images/glyphicons-447-floppy-save.png" class="wh19x19">';
+                }
+            }else{
+                logger.error('fail, this mind map is not editable');
+                return;
+            }
+        },
 
         move_node:function(nodeid, beforeid, parentid, direction){
             if(this.get_editable()){
@@ -1446,6 +1473,8 @@
                     this.layout.layout();
                     this.view.show(false);
                     this.invoke_event_handle(jm.event_type.edit,{evt:'move_node',data:[nodeid,beforeid,parentid,direction],node:nodeid});
+                    presentmap_saved = false;
+                    document.getElementById("savebtn").innerHTML = '<img src="images/glyphicons-447-floppy-save.png" class="wh19x19">';
                 }
             }else{
                 logger.error('fail, this mind map is not editable');
@@ -1584,13 +1613,15 @@
                         }
                     }
                     if(!!fgcolor){
-                        if (node.data['foreground-color'] !== '#000') {
-                            node.data['foreground-color'] = '#000';
-                        } else {
+                        if (node.data['foreground-color'] !== '#fff') {
                             node.data['foreground-color'] = '#fff';
+                        } else {
+                            node.data['foreground-color'] = '#000';
                         }
                     }
                     this.view.reset_node_custom_style(node);
+                    presentmap_saved = false;
+                    document.getElementById("savebtn").innerHTML = '<img src="images/glyphicons-447-floppy-save.png" class="wh19x19">';
                 }
             }else{
                 logger.error('fail, this mind map is not editable');
@@ -2396,7 +2427,9 @@
                 this.e_nodes.removeChild(expander);
                 node._data.view.element = null;
                 node._data.view.expander = null;
-            }
+            }            
+            presentmap_saved = false;
+            document.getElementById("savebtn").innerHTML = '<img src="images/glyphicons-447-floppy-save.png" class="wh19x19">';
         },
 
         update_node:function(node){

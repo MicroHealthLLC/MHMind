@@ -9,10 +9,10 @@
 (function($w){
     'use strict';
 
-    var __name__ = 'jsMind';
-    var jsMind = $w[__name__];
-    if(!jsMind){return;}
-    if(typeof jsMind.screenshot != 'undefined'){return;}
+    var __name__ = 'MHMind';
+    var MHMind = $w[__name__];
+    if(!MHMind){return;}
+    if(typeof MHMind.screenshot != 'undefined'){return;}
 
     var $d = $w.document;
     var $c = function(tag){return $d.createElement(tag);};
@@ -25,7 +25,7 @@
         var display  = css(cstyle,'display');
         return (visibility !== 'hidden' && display !== 'none');
     };
-    var jcanvas = jsMind.util.canvas;
+    var jcanvas = MHMind.util.canvas;
     jcanvas.rect = function (ctx,x,y,w,h,r) {
         if (w < 2 * r) r = w / 2;
         if (h < 2 * r) r = h / 2;
@@ -100,14 +100,14 @@
         img.src = backgroundUrl;
     };
 
-    jsMind.screenshot = function(jm){
+    MHMind.screenshot = function(jm){
         this.jm = jm;
         this.canvas_elem = null;
         this.canvas_ctx = null;
         this._inited = false;
     };
 
-    jsMind.screenshot.prototype = {
+    MHMind.screenshot.prototype = {
         init:function(){
             if(this._inited){return;}
             console.log('init');
@@ -172,7 +172,8 @@
             ctx.textBaseline='bottom';
             ctx.fillStyle='#000';
             ctx.font='11px Verdana,Arial,Helvetica,sans-serif';
-            ctx.fillText('hizzgdev.github.io/jsmind',c.width-5.5,c.height-2.5);
+//            ctx.fillText('hizzgdev.github.io/jsmind',c.width-5.5,c.height-2.5);
+            ctx.fillText('MicroHealth LLC - MHMind',c.width-5.5,c.height-2.5);
             ctx.textAlign='left';
             ctx.fillText($w.location,5.5,c.height-2.5);
         },
@@ -327,14 +328,14 @@
         },
 
         jm_event_handle:function(type,data){
-            if(type === jsMind.event_type.resize){
+            if(type === MHMind.event_type.resize){
                 this.resize();
             }
         }
     };
 
-    var screenshot_plugin = new jsMind.plugin('screenshot',function(jm){
-        var jss = new jsMind.screenshot(jm);
+    var screenshot_plugin = new MHMind.plugin('screenshot',function(jm){
+        var jss = new MHMind.screenshot(jm);
         jm.screenshot = jss;
         jm.shoot = function(){
             jss.shoot();
@@ -344,6 +345,6 @@
         });
     });
 
-    jsMind.register_plugin(screenshot_plugin);
+    MHMind.register_plugin(screenshot_plugin);
 
 })(window);

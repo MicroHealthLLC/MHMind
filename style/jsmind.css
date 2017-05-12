@@ -41,32 +41,9 @@ jmexpander:hover{border-color:#000;}
 
 
 /* light theme */
-jmnodes.theme-light jmnode{background-color:#fff;color:#000;border-color:#333;}
-jmnodes.theme-light jmnode.mainhead {background-color: #999999;color:#000;}
+jmnodes.theme-light jmnode{background-color:#ffffff;color:#000;border-color:#333;}
 jmnodes.theme-light jmnode:hover{background-color:#998f66;border-color:#285e8e;}
 jmnodes.theme-light jmnode.selected{background-color:#f1c40f;color:#000;}
 jmnodes.theme-light jmnode.root{background-color: #666666;color:#fff;}
 jmnodes.theme-light jmexpander{}
 jmnodes.theme-light jmexpander:hover{}
-
-
-/* dark theme */
-jmnodes.theme-dark jmnode{background-color:#cccccc;color:#000;border-color:#000000;}
-jmnodes.theme-dark jmnode.mainhead {background-color: #666666;color:#fff;}
-jmnodes.theme-dark jmnode:hover{background-color:#998f66;border-color:#285e8e;}
-jmnodes.theme-dark jmnode.selected{background-color:#f1c40f;color:#fff;}
-jmnodes.theme-dark jmnode.root{background-color: #333333;color:#fff;}
-jmnodes.theme-dark jmexpander{}
-jmnodes.theme-dark jmexpander:hover{}
-
-
-/* blue theme */
-jmnodes.theme-blue jmnode{background-color:#cce6ff;color:#000;border-color:#003366;}
-jmnodes.theme-blue jmnode.mainhead {background-color: #0066cc;color:#fff;}
-jmnodes.theme-blue jmnode:hover{background-color:#998f66;border-color:#285e8e;}
-jmnodes.theme-blue jmnode.selected{background-color:#f1c40f;color:#fff;}
-jmnodes.theme-blue jmnode.root{background-color: #003366;color:#fff;}
-jmnodes.theme-blue jmexpander{}
-jmnodes.theme-blue jmexpander:hover{}
-
-
