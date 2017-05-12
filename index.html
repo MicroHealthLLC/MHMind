@@ -22,6 +22,10 @@
         #searchbtn:hover {background-color: #c0c0c0;}
         #list_name {font-size:24px;font-weight:bold;color:#FF8C00;}
         #mh {color:#06c;}
+        .defaulttopic {color:#FF8C00;}
+        #warndiv {display:none;margin: 20px 20px 10px 20px;}
+        #warndiv p {font-size: .75em;}
+
         .flipimg {
             -moz-transform: scaleX(-1);
             -o-transform: scaleX(-1);
@@ -156,6 +160,9 @@
             <button id="searchbtn" class="flrtbtn iconbtn maplistbtn" title="Search Listing" onclick="findmap();"><img src="images/glyphicons-28-search.png" class="wh18x18"></button>
         </form>
         <div id="maplisting">
+        </div>
+        <div id="warndiv">
+            <p>* Warning: Default Topic</p>
         </div>
     </div>
     <div id="jsmind_nav">
@@ -411,7 +418,10 @@
     function remove_node(){
         var selected_id = get_selected_nodeid();
         if(!selected_id){prompt_info('Please select a node first.');return;}
-
+        var checkstr = window.confirm('Sure you want to delete this node?');
+        if (checkstr === false) {
+            return;
+        }
         _jm.remove_node(selected_id);
     }
 
@@ -673,14 +683,41 @@
 
 
     function update_maplisting() {
-        var i, maplist_items = "";
+        var i, maplist_items = "", warning = false;
         var this_list = document.getElementById("maplisting");
         this_list.innerHTML = "";
 //IMPORTANT NOTE: Change after mhmind position 0 = default map
         for (i = 0; i < mhmind_maps.length; i+=1) {
-            maplist_items = maplist_items + '<p><button id="deletebtn' + mhmind_maps[i].id + '" class="iconbtn maplistbtn deletemapbtn" title="Delete ' + mhmind_maps[i].map.data.topic + '"><img src="images/glyphicons-208-remove.png" class="wh12x12"></button><button id="editbtn' + mhmind_maps[i].id + '" class="iconbtn maplistbtn editmapbtn" title="Edit This Map"><img src="images/glyphicons-151-edit.png" class="wh17x15"></button> ' + mhmind_maps[i].map.data.topic + '</p>';
+            maplist_items = maplist_items + '<p><button id="deletebtn' + mhmind_maps[i].id + '" class="iconbtn maplistbtn deletemapbtn" title="Delete ' + mhmind_maps[i].map.data.topic + '"><img src="images/glyphicons-208-remove.png" class="wh12x12"></button><button id="editbtn' + mhmind_maps[i].id + '" class="iconbtn maplistbtn editmapbtn" title="Edit This Map"><img src="images/glyphicons-151-edit.png" class="wh17x15"></button> ';
+            if (mhmind_maps[i].map.data.topic !== "Your Concept Here") {
+                maplist_items = maplist_items + mhmind_maps[i].map.data.topic + '</p>';
+            } else {
+                maplist_items = maplist_items + '<span class="defaulttopic">' + mhmind_maps[i].map.data.topic + '</span>*</p>';
+                warning = true;
+            }
         }
         this_list.innerHTML = maplist_items;
+        if (warning === false) {
+            document.getElementById("warndiv").style.display = 'none';
+        } else {
+            document.getElementById("warndiv").style.display = 'block';
+        }
+        var j, editbtns = document.querySelectorAll(".editmapbtn");
+        for (j = 0; j < editbtns.length; j+=1) {
+            editbtns[j].addEventListener("click", function() {
+                editmap(this.id.slice(7));
+           });
+        }
+        var k, deletebtns = document.querySelectorAll(".deletemapbtn");
+        for (k = 0; k < deletebtns.length; k+=1) {
+            deletebtns[k].addEventListener("click", function() {
+                var checkstr = window.confirm('Sure you want to delete mind map ' + this.title.slice(7) + '?');
+                if (checkstr === false) {
+                    return;
+                }
+                deletemap(this.id.slice(9));
+           });
+        }
     }
 
 
@@ -715,13 +752,6 @@
             }
             presentmap_saved = true;
             document.getElementById("savebtn").innerHTML = '<img src="images/glyphicons-445-floppy-saved.png" class="wh19x19">';
-/*
-            prompt_info(mhmind_maps[mhmind_maps.length - 1].id);
-            prompt_info(mhmind_maps[mhmind_maps.length - 1].map.meta.name)
-            prompt_info(mhmind_maps[mhmind_maps.length - 1].map.meta.author)
-            prompt_info(mhmind_maps[mhmind_maps.length - 1].map.meta.version)
-            prompt_info(mhmind_maps[mhmind_maps.length - 1].map.data.topic);
-*/
         } else {
             prompt_info("Default map!");
         }
@@ -770,24 +800,6 @@
             update_maplisting();
         } else {
             prompt_info("Error, map not found!");
-        }
-    }
-
-
-    document.onclick = function(event) {
-        var el = event.target;
-        if (el.className === "iconbtn maplistbtn editmapbtn") {
-//            alert('edit map ' + el.id.slice(7));
-            editmap(el.id.slice(7));
-        } else {
-            if (el.className === "iconbtn maplistbtn deletemapbtn") {
-                var checkstr = window.confirm('Sure you want to delete mind map ' + el.title.slice(7) + '?');
-                if (checkstr === false) {
-                    return;
-                }
-//                alert('delete map ' + el.id.slice(9));
-                deletemap(el.id.slice(9));
-            }
         }
     }
 
