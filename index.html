@@ -21,7 +21,7 @@
         button.maplistbtn:hover {background-color: #c0c0c0;}
         #searchbtn:hover {background-color: #c0c0c0;}
         #list_name {font-size:24px;font-weight:bold;color:#FF8C00;}
-        #mh {color:#06c;}
+        #mh {color:#0000cd;}
         .defaulttopic {color:#FF8C00;}
         #warndiv {display:none;margin: 20px 20px 10px 20px;}
         #warndiv p {font-size: .75em;}
@@ -46,7 +46,7 @@
         }
         #list_search {position:fixed;z-index:1000;display:none; margin-top:0px;margin-left:-400px;padding:5px 10px 10px 10px;width:400px;background-color:white;border:1px solid #666;}
         #list_search p {margin:0;}
-        #searchmaps {margin: 10px 0 10px 10px; width:325px; height: 30px; border: 1px solid #666; background:#f4f4f4;}
+        #searchmaps {margin: 10px 0 10px 10px; padding:5px; width:325px; height: 30px; border: 1px solid #666; background:#f4f4f4;}
 
         #nodes_menu, #file_menu, #export_import {
             padding: 0px 10px 10px 10px;
@@ -79,10 +79,15 @@
         p, label {
             font: .85em Helvetica, Arial, sans-serif;
         }
-        #bgcolorpick {margin-top: 0px; width:130px; height: 30px; border: none; box-shadow: none; background:#f4f4f4;}
 
         #info {display:none; margin:-50px 10px 10px 50px; width:90%; }
         #info p, ul li {font-size:.75em; }
+
+        #activecolor {width:24px; height:24px; background-color:#0000cd; border:2px ridge #ccc; margin: 0 -5px 0 0 !important;}
+        #colorpicker {z-index:500;margin-top:-1px; width:460px;height:195px; background:#e6e6e6; border:1px solid #666; padding: 10px; display:none;}
+        #changebgcolorbtn {margin-left:5px !important;}
+        table tr td {width: 16px; height: 16px; padding: 10px; background-color: #ffffff;}
+        .colorshade {width: 16px; height: 16px;}
 
         .wh22x22 {width:22px; height:22px;}
         .wh19x19 {width:19px; height:19px;}
@@ -116,6 +121,8 @@
 
         @media all and (max-width: 739px) {
             button{margin:5px 10px;}
+            #activecolor {margin-right: -10px !important;}
+            #changebgcolorbtn {margin-left:-10px !important;}
         }
         @media all and (min-width: 740px) and (max-width: 799px) {
             button{margin:5px 1px;}
@@ -125,6 +132,8 @@
         }
         @media all and (min-width: 900px) and (max-width: 1199px) {
             button{margin:5px 10px;}
+            #activecolor {margin-right: -10px !important;}
+            #changebgcolorbtn {margin-left:-10px !important;}
         }
         @media all and (min-width: 1200px) and (max-width: 1439px) {
             button{margin:5px 2px;}
@@ -134,6 +143,8 @@
         }
         @media all and (min-width: 1660px) {
             button{margin:5px 10px;}
+            #activecolor {margin-right: -10px !important;}
+            #changebgcolorbtn {margin-left:-10px !important;}
         }
 
 
@@ -143,22 +154,26 @@
                 height: 100px;
             }
         }
-        @media all and (min-width: 1300px) {
+        @media all and (min-width: 1280px) {
             #expand_level {display:block;}
         }
         @media all and (max-width: 1199px) {
             #nodes_menu {float:left;}
         }
+
+        @media all and (min-width: 300px) {
+            #activecolor {margin-right: -5px !important;}
+            #changebgcolorbtn {margin-left:-5px !important;}
+        }
+
     </style>
 </head>
 <body>
 <div id="layout">
     <div id="list_search">
         <p><button class="iconbtn maplistbtn" title="Close Listing Search Panel" onclick="hide_list_search(list_search, 0, -400);"><img src="images/glyphicons-369-collapse.png" class="flipimg"></button> <span id="list_name"><span id="mh">MH</span>Mind</span></p>
-        <form>
-            <input type="search" id="searchmaps" name="searchmaps" />
-            <button id="searchbtn" class="flrtbtn iconbtn maplistbtn" title="Search Listing" onclick="findmap();"><img src="images/glyphicons-28-search.png" class="wh18x18"></button>
-        </form>
+        <input type="search" id="searchmaps" name="searchmaps" />
+        <button id="searchbtn" class="flrtbtn iconbtn maplistbtn" title="Search Listing" onclick="findmap();"><img src="images/glyphicons-28-search.png" class="wh18x18"></button>
         <div id="maplisting">
         </div>
         <div id="warndiv">
@@ -184,40 +199,9 @@
             <button class="iconsbtn" title="Add a Text Node" onclick="add_node();"><img src="images/glyphicons-433-plus.png" class="wh10x10"> <img src="images/glyphicons-154-unchecked.png"></button>
             <button class="iconsbtn" title="Add an Image Node" onclick="add_image_node();"><img src="images/glyphicons-433-plus.png" class="wh10x10"> <img src="images/glyphicons-139-picture.png" class="wh20x18"></button>
             <span>&nbsp;&nbsp;</span>
-            <select title="Select Node Background Color" id="bgcolorpick">
-                <option value="#ffffff" selected="selected">white</option>
-                <option value="#cccccc">pale grey</option>
-                <option value="#999999">light grey</option>
-                <option value="#666666">medium grey</option>
-                <option value="#333333">dark grey</option>
-                <option value="#000000">black</option>
-                <option value="#003366">dark blue</option>
-                <option value="#0066cc">medium blue</option>
-                <option value="#cce6ff">light blue</option>
-                <option value="#006633">dark green</option>
-                <option value="#00cc66">medium green</option>
-                <option value="#ccffe6">light green</option>
-                <option value="#D2B48C">tan</option>
-                <option value="#F5DEB3">wheat</option>
-                <option value="#F5F5DC">beige</option>
-                <option value="#800000">maroon</option>
-                <option value="#cc0000">red</option>
-                <option value="#DC143C">crimson</option>
-                <option value="#FFE4E1">misty rose</option>
-                <option value="#800080">purple</option>
-                <option value="#8A2BE2">blue violet</option>
-                <option value="#4B0082">indigo</option>
-                <option value="#E6E6FA">lavender</option>
-                <option value="#483D8B">dark slate blue</option>
-                <option value="#008080">teal</option>
-                <option value="#8B4513">saddle brown</option>
-                <option value="#B8860B">dark golden rod</option>
-                <option value="#FFFFE0">light yellow</option>
-                <option value="#FF8C00">dark orange</option>
-                <option value="#808000">olive</option>
-                <option value="#BDB76B">dark khaki</option>
-            </select>
-            <button class="iconbtn" title="Change Background Color of Node to Selected Color" onclick="change_background_color();"><img src="images/glyphicons-607-text-background.png" class="wh21x20"></button>
+            <sup><button type="button" id="activecolor" value="#0000cd"/></button></sup>
+            <button class="iconbtn" id="colorpickerbtn" title="Toggle Color Picker" onclick="color_picker();"><img src="images/glyphicons-368-expand.png"></button>
+            <button class="iconbtn" id="changebgcolorbtn" title="Change Background Color of Node to Selected Color" onclick="change_background_color();"><img src="images/glyphicons-607-text-background.png" class="wh21x20"></button>
             <button class="iconswbtn" title="Change Node Text Color Toggled Black or White" onclick="change_text_color();"><sup><strong>B/W</strong></sup> <img src="images/glyphicons-606-text-color.png" class="wh19x19"></button>
             <button class="iconsbtn" title="Set Node as First Child" onclick="move_to_first();"><img src="images/glyphicons-154-unchecked.png"> <img src="images/glyphicons-188-more.png" class="wh12x4"></button>
             <button class="iconsbtn" title="Set Node as Last Child" onclick="move_to_last();"><img src="images/glyphicons-188-more.png" class="wh12x4"> <img src="images/glyphicons-154-unchecked.png"></button>
@@ -239,6 +223,82 @@
                 <button class="iconbtn" title="Upload User JSON Map File" onclick="open_file();"><img src="images/glyphicons-202-upload.png" class="wh22x22"></button>
             </div>
         </div>
+        <div id="colorpicker">
+            <table>
+                <tr>
+                    <td class="colorshade" style="background-color:#000000"></td>
+                    <td class="colorshade" style="background-color:#333333"></td>
+                    <td class="colorshade" style="background-color:#595959"></td>
+                    <td class="colorshade" style="background-color:#808080"></td>
+                    <td class="colorshade" style="background-color:#a6a6a6"></td>
+                    <td class="colorshade" style="background-color:#cccccc"></td>
+                    <td class="colorshade" style="background-color:#f2f2f2"></td>
+                    <td class="colorshade" style="background-color:#ecd9c6"></td>
+                    <td class="colorshade" style="background-color:#d9b38c"></td>
+                    <td class="colorshade" style="background-color:#c68c53"></td>
+                    <td class="colorshade" style="background-color:#996633"></td>
+                    <td class="colorshade" style="background-color:#604020"></td>
+                 </tr>
+                <tr>
+                    <td class="colorshade" style="background-color:#000080"></td>
+                    <td class="colorshade" style="background-color:#0000cc"></td>
+                    <td class="colorshade" style="background-color:#1a1aff"></td>
+                    <td class="colorshade" style="background-color:#6666ff"></td>
+                    <td class="colorshade" style="background-color:#9999ff"></td>
+                    <td class="colorshade" style="background-color:#ccccff"></td>
+                    <td class="colorshade" style="background-color:#8cb3d9"></td>
+                    <td class="colorshade" style="background-color:#6699cc"></td>
+                    <td class="colorshade" style="background-color:#4080bf"></td>
+                    <td class="colorshade" style="background-color:#336699"></td>
+                    <td class="colorshade" style="background-color:#264d73"></td>
+                    <td class="colorshade" style="background-color:#19334d"></td>
+                </tr>
+                <tr>
+                    <td class="colorshade" style="background-color:#20603b"></td>
+                    <td class="colorshade" style="background-color:#2e8b57"></td>
+                    <td class="colorshade" style="background-color:#53c685"></td>
+                    <td class="colorshade" style="background-color:#79d2a0"></td>
+                    <td class="colorshade" style="background-color:#9fdfbb"></td>
+                    <td class="colorshade" style="background-color:#c6ecd6"></td>
+                    <td class="colorshade" style="background-color:#00cccc"></td>
+                    <td class="colorshade" style="background-color:#008080"></td>
+                    <td class="colorshade" style="background-color:#4dff4d"></td>
+                    <td class="colorshade" style="background-color:#00cc00"></td>
+                    <td class="colorshade" style="background-color:#008000"></td>
+                    <td class="colorshade" style="background-color:#004d00"></td>
+                </tr>
+                <tr>
+                    <td class="colorshade" style="background-color:#4b0082"></td>
+                    <td class="colorshade" style="background-color:#800080"></td>
+                    <td class="colorshade" style="background-color:#cc00cc"></td>
+                    <td class="colorshade" style="background-color:#c71585"></td>
+                    <td class="colorshade" style="background-color:#ff33ff"></td>
+                    <td class="colorshade" style="background-color:#ff99ff"></td>           
+                    <td class="colorshade" style="background-color:#ffcccc"></td>
+                    <td class="colorshade" style="background-color:#ff9999"></td>
+                    <td class="colorshade" style="background-color:#ff6666"></td>
+                    <td class="colorshade" style="background-color:#ff3333"></td>
+                    <td class="colorshade" style="background-color:#cc0000"></td>
+                    <td class="colorshade" style="background-color:#800000"></td>
+                </tr>
+                <tr>
+                    <td class="colorshade" style="background-color:#804d00"></td>
+                    <td class="colorshade" style="background-color:#b36b00"></td>
+                    <td class="colorshade" style="background-color:#d2691e"></td>
+                    <td class="colorshade" style="background-color:#ff9900"></td>
+                    <td class="colorshade" style="background-color:#ffb84d"></td>
+                    <td class="colorshade" style="background-color:#ffd699"></td>
+
+                    <td class="colorshade" style="background-color:#ffffcc"></td>
+                    <td class="colorshade" style="background-color:#ffff99"></td>
+                    <td class="colorshade" style="background-color:#ffff1a"></td>
+                    <td class="colorshade" style="background-color:#cccc00"></td>
+                    <td class="colorshade" style="background-color:#808000"></td>
+                    <td class="colorshade" style="background-color:#4d4d00"></td>
+                </tr>
+            </table>
+        </div>
+
 </div>
 
 
@@ -285,14 +345,14 @@
         // _jm = jsMind.show(options,mind);
     }
 
-
+/*
     function open_ajax(){
         var mind_url = 'data_example.json';
         MHMind.util.ajax.get(mind_url,function(mind){
             _jm.show(mind);
         });
     }
-
+*/
     function screen_shot(){
         _jm.screenshot.shootDownload();
     }
@@ -433,14 +493,31 @@
         _jm.set_node_color(selected_id, null, '#000');
     }
 
+
+    var c, colortd = document.querySelectorAll(".colorshade");
+    for (c = 0; c < colortd.length; c+=1) {
+        colortd[c].addEventListener("click", function () {
+            document.getElementById("activecolor").value = this.style.backgroundColor;
+            document.getElementById("activecolor").style.backgroundColor = this.style.backgroundColor;
+        });
+    }
+
     function change_background_color(){
-        var colorpick = document.getElementById("bgcolorpick").value;
+        var colorpick = document.getElementById("activecolor").value;
         var selected_id = get_selected_nodeid();
         if(!selected_id){prompt_info('Please select a node first.');return;}
         _jm.set_node_color(selected_id, colorpick, null);       
-//        _jm.set_node_color(selected_id, '#eee', null);
     }
- 
+
+    function color_picker(){
+        if (document.getElementById("colorpicker").style.display === 'block') {
+            document.getElementById("colorpicker").style.display = 'none';
+            document.getElementById("colorpickerbtn").innerHTML = '<img src="images/glyphicons-368-expand.png">';
+        } else {
+            document.getElementById("colorpicker").style.display = 'block';
+            document.getElementById("colorpickerbtn").innerHTML = '<img src="images/glyphicons-370-collapse-top.png">';
+        }
+    }
 
     function change_background_image(){
         var selected_id = get_selected_nodeid();
@@ -650,6 +727,8 @@
         document.getElementById("savebtn").innerHTML = '<img src="images/glyphicons-447-floppy-save.png" class="wh19x19">';
     }
 
+
+
 /* NOT NECESSARY WITH MULTIMAP SUPPORT, USE function newmap 
     function reset_map() {
         var mind_str = get_map_info();
@@ -682,18 +761,22 @@
 
 
 
-    function update_maplisting() {
+    function update_maplisting(srchinput) {
         var i, maplist_items = "", warning = false;
         var this_list = document.getElementById("maplisting");
         this_list.innerHTML = "";
-//IMPORTANT NOTE: Change after mhmind position 0 = default map
+        if (srchinput === null) {
+            document.getElementById("searchmaps").value = "";
+        }
         for (i = 0; i < mhmind_maps.length; i+=1) {
-            maplist_items = maplist_items + '<p><button id="deletebtn' + mhmind_maps[i].id + '" class="iconbtn maplistbtn deletemapbtn" title="Delete ' + mhmind_maps[i].map.data.topic + '"><img src="images/glyphicons-208-remove.png" class="wh12x12"></button><button id="editbtn' + mhmind_maps[i].id + '" class="iconbtn maplistbtn editmapbtn" title="Edit This Map"><img src="images/glyphicons-151-edit.png" class="wh17x15"></button> ';
-            if (mhmind_maps[i].map.data.topic !== "Your Concept Here") {
-                maplist_items = maplist_items + mhmind_maps[i].map.data.topic + '</p>';
-            } else {
-                maplist_items = maplist_items + '<span class="defaulttopic">' + mhmind_maps[i].map.data.topic + '</span>*</p>';
-                warning = true;
+            if ((srchinput === null) || (mhmind_maps[i].map.data.topic.toLowerCase().indexOf(srchinput.toLowerCase()) > -1)) {
+               maplist_items = maplist_items + '<p><button id="deletebtn' + mhmind_maps[i].id + '" class="iconbtn maplistbtn deletemapbtn" title="Delete ' + mhmind_maps[i].map.data.topic + '"><img src="images/glyphicons-208-remove.png" class="wh12x12"></button><button id="editbtn' + mhmind_maps[i].id + '" class="iconbtn maplistbtn editmapbtn" title="Edit This Map"><img src="images/glyphicons-151-edit.png" class="wh17x15"></button> ';
+                if (mhmind_maps[i].map.data.topic !== "Your Concept Here") {
+                    maplist_items = maplist_items + mhmind_maps[i].map.data.topic + '</p>';
+                } else {
+                    maplist_items = maplist_items + '<span class="defaulttopic">' + mhmind_maps[i].map.data.topic + '</span>*</p>';
+                    warning = true;
+                }
             }
         }
         this_list.innerHTML = maplist_items;
@@ -720,7 +803,18 @@
         }
     }
 
+    var searchmaps = document.getElementById("searchmaps");
+    searchmaps.addEventListener("change", function() {
+        var searchitem = document.getElementById("searchmaps").value.trim();
+        if (searchitem === "") {
+            update_maplisting(null);
+        }
+    });
 
+    function findmap() {
+        var searchitem = document.getElementById("searchmaps").value.trim().toLowerCase();
+        update_maplisting(searchitem);
+     }
 
     function savemap() {
         var mind_str = get_map_info();
@@ -742,12 +836,12 @@
                 mhmind_maps.push(this_group);
                 presentmap_id = this_id;
 //                presentmap_saved = true;
-                update_maplisting();
+                update_maplisting(null);
             } else {
                 var previous_topic = mhmind_maps[presentmap_id].map.data.topic;
                 mhmind_maps[presentmap_id].map = this_map;
                 if (previous_topic !== mhmind_maps[presentmap_id].map.data.topic) {
-                    update_maplisting();                    
+                    update_maplisting(null);                    
                 }
             }
             presentmap_saved = true;
@@ -797,7 +891,7 @@
             if (Number(btnid) === presentmap_id) {
                 default_map();
             }
-            update_maplisting();
+            update_maplisting(null);
         } else {
             prompt_info("Error, map not found!");
         }

@@ -71,7 +71,8 @@
                 addbrother : 13, // Enter
                 editnode   : 113,// F2
                 delnode    : 46, // Delete
-                toggle     : 32, // Space
+            //    toggle     : 32, // Space
+                toggle     : 114, // F3
                 left       : 37, // Left
                 up         : 38, // Up
                 right      : 39, // Right
@@ -1171,6 +1172,7 @@
         },
 
         dblclick_handle:function(e){
+        //    alert('dblclick_handle');
             if (!this.options.default_event_handle['enable_dblclick_handle']) {
                 return;
             }
@@ -2265,8 +2267,9 @@
 
             var v = this;
             jm.util.dom.add_event(this.e_editor,'keydown',function(e){
-                var evt = e || event;
+                var evt = e || event;               
                 if(evt.keyCode == 13){v.edit_node_end();evt.stopPropagation();}
+            //    alert('keydown event; ' + evt.keyCode);
             });
             jm.util.dom.add_event(this.e_editor,'blur',function(e){
                 v.edit_node_end();
