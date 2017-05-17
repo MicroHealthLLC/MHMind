@@ -1172,7 +1172,6 @@
         },
 
         dblclick_handle:function(e){
-        //    alert('dblclick_handle');
             if (!this.options.default_event_handle['enable_dblclick_handle']) {
                 return;
             }
