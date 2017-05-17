@@ -472,6 +472,55 @@ function newmap() {
 }
 
 
+function editmap(btnid) {
+    "use strict";
+    if (Number(btnid) !== presentmap_id) {
+        if ((presentmap_saved === false) && (presentmap_id !== -1)) {
+            var checkstr = window.confirm('Click "Cancel" if this mind map needs to be saved first, otherwise click "OK".');
+            if (checkstr === false) {
+                return;
+            }
+        }
+        var found = false, i = -1;
+        while ((found === false) && (i < mhmind_maps.length)) {
+            i += 1;
+            if (mhmind_maps[i].id === Number(btnid)) {
+                found = true;
+            }
+        }
+        if (found === true) {
+            presentmap_id = Number(btnid);
+            _jm.show(mhmind_maps[i].map);
+            presentmap_saved = true;
+            document.getElementById("savebtn").innerHTML = '<img src="images/glyphicons-445-floppy-saved.png" class="wh19x19">';
+        } else {
+            prompt_info("Error, map not found!");
+        }
+    } else {
+        prompt_info("This mind map is displayed!");
+    }
+}
+
+function deletemap(btnid) {
+    "use strict";
+    var found = false, i = -1;
+    while ((found === false) && (i < mhmind_maps.length)) {
+        i += 1;
+        if (mhmind_maps[i].id === Number(btnid)) {
+            found = true;
+        }
+    }
+    if (found === true) {
+        mhmind_maps.splice(i, 1);
+        if (Number(btnid) === presentmap_id) {
+            default_map();
+        }
+        update_maplisting(null);
+    } else {
+        prompt_info("Error, map not found!");
+    }
+}
+
 
 function update_maplisting(srchinput) {
     "use strict";
@@ -550,89 +599,44 @@ function findmap() {
     update_maplisting(searchitem);
  }
 
+function save_map(mind_str) {
+    "use strict";
+    var this_map = JSON.parse(mind_str);
+    var this_group = {};
+    if (presentmap_id === -1) {
+        if (mhmind_maps.length > 0) {
+            var this_id = Number(mhmind_maps[mhmind_maps.length - 1].id);
+            this_id += 1;
+        } else {
+            this_id = 0;
+       }
+        this_group.id = this_id;
+        this_group.map = this_map;
+        mhmind_maps.push(this_group);
+        presentmap_id = this_id;
+        update_maplisting(null);
+    } else {
+        var previous_topic = mhmind_maps[presentmap_id].map.data.topic;
+        mhmind_maps[presentmap_id].map = this_map;
+        if (previous_topic !== mhmind_maps[presentmap_id].map.data.topic) {
+            update_maplisting(null);                    
+        }
+    }
+    presentmap_saved = true;
+    document.getElementById("savebtn").innerHTML = '<img src="images/glyphicons-445-floppy-saved.png" class="wh19x19">';
+    return;
+}
+
 function savemap() {
     "use strict";
     var mind_str = get_map_info();
     if (mind_str !== true) {
-        var this_map = JSON.parse(mind_str);
-        var this_group = {};
-//IMPORTANT NOTE: Change this to > 1 after testing, when 0 will become default map info!!!!!
-        if (presentmap_id === -1) {
-            if (mhmind_maps.length > 0) {
-                var this_id = Number(mhmind_maps[mhmind_maps.length - 1].id);
-                this_id += 1;
-            } else {
-//IMPORTANT NOTE: Change this to 1 after testing, when 0 will become default map info!!!!!
-                this_id = 0;
-//                prompt_info('First MHMind map!');
-            }
-            this_group.id = this_id;
-            this_group.map = this_map;
-            mhmind_maps.push(this_group);
-            presentmap_id = this_id;
-//                presentmap_saved = true;
-            update_maplisting(null);
-        } else {
-            var previous_topic = mhmind_maps[presentmap_id].map.data.topic;
-            mhmind_maps[presentmap_id].map = this_map;
-            if (previous_topic !== mhmind_maps[presentmap_id].map.data.topic) {
-                update_maplisting(null);                    
-            }
-        }
-        presentmap_saved = true;
-        document.getElementById("savebtn").innerHTML = '<img src="images/glyphicons-445-floppy-saved.png" class="wh19x19">';
+        save_map(mind_str);
     } else {
         prompt_info("Default map!");
     }
 }
 
-
-function editmap(btnid) {
-    "use strict";
-    if (Number(btnid) !== presentmap_id) {
-        if (presentmap_saved === false) {
-            var checkstr = window.confirm('Click "Cancel" if this mind map needs to be saved first, otherwise click "OK".');
-            if (checkstr === false) {
-                return;
-            }
-        }
-        var found = false, i = -1;
-        while ((found === false) && (i < mhmind_maps.length)) {
-            i += 1;
-            if (mhmind_maps[i].id === Number(btnid)) {
-                found = true;
-            }
-        }
-        if (found === true) {
-            presentmap_id = Number(btnid);
-            _jm.show(mhmind_maps[i].map);
-        } else {
-            prompt_info("Error, map not found!");
-        }
-    } else {
-        prompt_info("This mind map is displayed!");
-    }
-}
-
-function deletemap(btnid) {
-    "use strict";
-    var found = false, i = -1;
-    while ((found === false) && (i < mhmind_maps.length)) {
-        i += 1;
-        if (mhmind_maps[i].id === Number(btnid)) {
-            found = true;
-        }
-    }
-    if (found === true) {
-        mhmind_maps.splice(i, 1);
-        if (Number(btnid) === presentmap_id) {
-            default_map();
-        }
-        update_maplisting(null);
-    } else {
-        prompt_info("Error, map not found!");
-    }
-}
 
 
 function show_list_search(obj, from, to) {
@@ -685,5 +689,28 @@ function showinfo() {
 window.onresize = function() {
     setlayout();
 }
+
 open_empty();
 setlayout();
+
+var thesemhminds1 = localStorage.getItem("thesemhminds1");
+if ((thesemhminds1 !== null) && (thesemhminds1 !== "") && (thesemhminds1 !== undefined)) {
+    thesemhminds1 = JSON.parse(thesemhminds1);
+    mhmind_maps.length = 0;
+    mhmind_maps = thesemhminds1;
+    update_maplisting(null);
+}
+
+function saveMHMind() {
+    "use strict";
+    if (presentmap_saved === false) {
+        var mind_str = get_map_info();
+        if (mind_str !== true) {
+            save_map(mind_str);
+        }
+    }
+//    setTimeout(function () {
+        thesemhminds1 = JSON.stringify(mhmind_maps);
+        localStorage.setItem("thesemhminds1", thesemhminds1);
+//    }, 2000);
+}
