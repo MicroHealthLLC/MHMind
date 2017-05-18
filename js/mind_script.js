@@ -184,7 +184,20 @@ function change_text_color(){
     _jm.set_node_color(selected_id, null, '#000');
 }
 
-
+var colorshades = [
+    ["#000000","#333333","#595959","#808080","#a6a6a6","#cccccc","#f2f2f2","#ecd9c6","#d9b38c","#c68c53","#996633","#604020"],["#000080","#0000cc","#1a1aff","#6666ff","#9999ff","#ccccff","#8cb3d9","#6699cc","#4080bf","#336699","#264d73","#19334d"],["#20603b","#2e8b57","#53c685","#79d2a0","#9fdfbb","#c6ecd6","#00cccc","#008080","#4dff4d","#00cc00","#008000","#004d00"],["#4b0082","#800080","#cc00cc","#c71585","#ff33ff","#ff99ff","#ffcccc","#ff9999","#ff6666","#ff3333","#cc0000","#800000"],["#804d00","#b36b00","#d2691e","#ff9900","#ffb84d","#ffd699","#ffffcc","#ffff99","#ffff1a","#cccc00","#808000","#4d4d00"]
+];
+var ch, cv, selcolortr, selcolortd, selcolors = "", colordiv = document.getElementById("selcolors");
+for (cv = 0; cv < colorshades.length; cv+=1) {
+    selcolortr = '<tr>';
+    for (ch = 0; ch < colorshades[cv].length; ch+=1) {
+        selcolortd = '<td class="colorshade" style="background-color:' + colorshades[cv][ch] + '"></td>';
+        selcolortr = selcolortr + selcolortd;
+    }
+    selcolortr = selcolortr + '</tr>';
+    selcolors = selcolors + selcolortr;
+}
+colordiv.innerHTML = selcolors;
 var c, colortd = document.querySelectorAll(".colorshade");
 for (c = 0; c < colortd.length; c+=1) {
     colortd[c].addEventListener("click", function () {
@@ -202,7 +215,7 @@ function change_background_color(){
 }
 
 function color_picker(){
-    "use strict";
+    "use strict";    
     if (document.getElementById("colorpicker").style.display === 'block') {
         document.getElementById("colorpicker").style.display = 'none';
         document.getElementById("colorpickerbtn").innerHTML = '<img src="images/glyphicons-368-expand.png">';
