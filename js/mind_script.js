@@ -3,7 +3,9 @@ var mhmind_maps = [];
 var presentmap_saved = false;
 
 var presentmap_id = -1;
+
 var _jm = null;
+
 function open_empty(){
     "use strict";
     var options = {
@@ -445,7 +447,7 @@ function get_map_info() {
 
 function default_map() {
     "use strict";
-    document.getElementById("jsmind_container").innerHTML = "";
+    document.getElementById("jsmind_container").innerHTML = null;
     open_empty();
     presentmap_id = -1;
     document.getElementById("savebtn").innerHTML = '<img src="images/glyphicons-447-floppy-save.png" class="wh19x19">';
@@ -539,7 +541,7 @@ function update_maplisting(srchinput) {
     "use strict";
     var i, s1, s2, nodetext, nodestr, nodetopic, foundtopic, c = 0, maplist_items = "", warning = false;
     var this_list = document.getElementById("maplisting");
-    this_list.innerHTML = "";
+    this_list.innerHTML = null;
     if (srchinput === null) {
         document.getElementById("searchmaps").value = "";
     }
