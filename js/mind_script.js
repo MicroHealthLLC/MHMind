@@ -561,7 +561,7 @@ function update_maplisting(srchinput) {
             }
         }
         if ((srchinput === null) || (foundtopic === true)) {
-           maplist_items = maplist_items + '<p><button id="deletebtn' + mhmind_maps[i].id + '" class="iconbtn maplistbtn deletemapbtn" title="Delete ' + mhmind_maps[i].map.data.topic + '"><img src="images/glyphicons-208-remove.png" class="wh12x12"></button><button id="editbtn' + mhmind_maps[i].id + '" class="iconbtn maplistbtn editmapbtn" title="Edit This Map"><img src="images/glyphicons-151-edit.png" class="wh17x15"></button> ';
+           maplist_items = maplist_items + '<p><button id="deletebtn' + mhmind_maps[i].id + '" class="iconbtn maplistbtn deletemapbtn" title="Delete ' + mhmind_maps[i].map.data.topic + '"><img src="images/glyphicons-208-remove.png" class="wh12x12"></button><button id="editbtn' + mhmind_maps[i].id + '" class="iconbtn maplistbtn editmapbtn" title="Edit ' + mhmind_maps[i].map.data.topic + '"><img src="images/glyphicons-151-edit.png" class="wh17x15"></button> ';
             if (mhmind_maps[i].map.data.topic !== "Your Concept Here") {
                 maplist_items = maplist_items + mhmind_maps[i].map.data.topic + '</p>';
             } else {
