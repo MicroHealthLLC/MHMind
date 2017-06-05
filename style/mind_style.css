@@ -2,7 +2,7 @@ body {background:#f4f4f4; margin:0; padding: 0; font-family: Helvetica, Arial, s
 li{margin-top:2px; margin-bottom:2px;}
 button{width:140px; height: 40px; border: none; box-shadow: none; background:transparent; color: black; margin: 5px 5px; padding: 5px;}
 #layout{width:1230px;width:100%;}
-#jsmind_nav{width:100%; height:62px;border-bottom:solid 1px #666;overflow:auto;background-color: #ccc; margin:0;padding:0;}
+#jsmind_nav{z-index:2000;width:100%; height:62px;border-bottom:solid 1px #666;overflow:auto;background-color: #ccc; margin:0;padding:0;}
 .file_input{width:300px; height: 30px; border: none; box-shadow: none; background-color: #f4f4f4; color: black;}
 button.iconbtn{width:40px;}
 button.iconsbtn{width:50px;}
@@ -12,12 +12,13 @@ button.flrtbtn{float:right;}
 button:hover {background-color: #808080;}
 button.maplistbtn:hover {background-color: #c0c0c0;}
 #searchbtn:hover {background-color: #c0c0c0;}
-#list_name {font-size:24px;font-weight:bold;color:#FF8C00;}
-#mh {color:#0000cd;}
+#list_name {margin-left:10px;font-size:24px;font-weight:bold;color:#FF8C00;color:#DD9036;}
+#mh {color:#1D336F;}
 .defaulttopic {color:#FF8C00;}
-#warndiv {display:none;margin: 20px 20px 10px 20px;}
+#warndiv {float:none;display:none;margin: 0px 20px -15px 20px;}
 #warndiv p {font-size: .75em;}
-
+.deletemapbtn {margin-right: 0px;}
+.editmapbtn {margin-left: 0px;}
 .flipimg {
     -moz-transform: scaleX(-1);
     -o-transform: scaleX(-1);
@@ -36,7 +37,7 @@ button.maplistbtn:hover {background-color: #c0c0c0;}
     background:#f4f4f4;
     clear:both;
 }
-#list_search {position:fixed;z-index:1000;display:none; margin-top:0px;margin-left:-400px;padding:5px 10px 10px 10px;width:400px;background-color:white;border:1px solid #666;}
+#list_search {margin-top:-1px;padding:15px 10px 30px 10px;width:400px;background-color:white;border:1px solid #666;}
 #list_search p {margin:0;}
 #searchmaps {margin: 10px 0 10px 10px; padding:5px; width:325px; height: 30px; border: 1px solid #666; background:#f4f4f4;}
 
@@ -47,6 +48,7 @@ button.maplistbtn:hover {background-color: #c0c0c0;}
 #file_menu {float:left;}
 #nodes_menu {float:right;}
 #export_import {
+    z-index:500;
     margin: 0;
     height: 50px;
     padding-top: 5px;
@@ -75,8 +77,8 @@ p, label {
 #info {display:none; margin:-50px 10px 10px 50px; width:90%; }
 #info p, ul li {font-size:.75em; }
 
-#activecolor {width:24px; height:24px; background-color:#0000cd; border:2px ridge #ccc; margin: 0 -5px 0 0 !important;}
-#colorpicker {z-index:500;margin-top:-1px; width:460px;height:195px; background:#e6e6e6; border:1px solid #666; padding: 10px; display:none;}
+#colorpickerbtn {width:24px; height:24px; background-color:#0000cc; border:2px ridge #ccc; margin: 0 0px 0 0 !important;}
+#colorpicker {z-index:5000;margin:-1px auto 0 auto; width:460px;height:230px; background:#e6e6e6; border:1px solid #666; padding: 10px; display:none;}
 #changebgcolorbtn {margin-left:5px !important;}
 table tr td {width: 16px; height: 16px; padding: 10px; background-color: #ffffff;}
 .colorshade {width: 16px; height: 16px;}
@@ -97,7 +99,26 @@ table tr td {width: 16px; height: 16px; padding: 10px; background-color: #ffffff
 .wh12x12 {width:12px; height:12px;}
 .wh12x4 {width:12px; height:4px;}
 
+#mapslistingdiv {
+  background-color: transparent;
+  z-index:-2000;
+  position:absolute;
+  margin-top:0;
+  width: 430px;
+  overflow: hidden;
+}
 
+.slide {
+  border: 1px solid rgba(153, 153, 153, .7);
+  background-color: rgba(204, 204, 204, .3);
+  padding: 5px;
+  transition: .5s cubic-bezier(0, 1, 0.5, 1);
+  transform: translateY(0);
+}
+
+.slide-up {
+  transform: translateY(-100%);
+}
 
 @media all and (max-width: 739px) {
     #jsmind_nav{height:180px;}
@@ -113,7 +134,6 @@ table tr td {width: 16px; height: 16px; padding: 10px; background-color: #ffffff
 
 @media all and (max-width: 739px) {
     button{margin:5px 10px;}
-    #activecolor {margin-right: -10px !important;}
     #changebgcolorbtn {margin-left:-10px !important;}
 }
 @media all and (min-width: 740px) and (max-width: 799px) {
@@ -124,7 +144,6 @@ table tr td {width: 16px; height: 16px; padding: 10px; background-color: #ffffff
 }
 @media all and (min-width: 900px) and (max-width: 1199px) {
     button{margin:5px 10px;}
-    #activecolor {margin-right: -10px !important;}
     #changebgcolorbtn {margin-left:-10px !important;}
 }
 @media all and (min-width: 1200px) and (max-width: 1439px) {
@@ -135,25 +154,24 @@ table tr td {width: 16px; height: 16px; padding: 10px; background-color: #ffffff
 }
 @media all and (min-width: 1660px) {
     button{margin:5px 10px;}
-    #activecolor {margin-right: -10px !important;}
     #changebgcolorbtn {margin-left:-10px !important;}
 }
 
 
 @media all and (max-width: 939px) {
-    #expside, #impside {float:none; width: 100%; }
-    #export_import {
-        height: 100px;
-    }
+    #expside, #impside {float:none; width: 100%;}
+    #export_import {height: 100px;}
 }
-@media all and (min-width: 1280px) {
+
+@media all and (min-width: 1240px) {
     #expand_level {display:block;}
 }
+
 @media all and (max-width: 1199px) {
     #nodes_menu {float:left;}
+    #colorpicker {margin:-1px auto 0 0;} 
 }
 
 @media all and (min-width: 300px) {
-    #activecolor {margin-right: -5px !important;}
     #changebgcolorbtn {margin-left:-5px !important;}
 }

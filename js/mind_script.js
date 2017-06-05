@@ -203,28 +203,27 @@ colordiv.innerHTML = selcolors;
 var c, colortd = document.querySelectorAll(".colorshade");
 for (c = 0; c < colortd.length; c+=1) {
     colortd[c].addEventListener("click", function () {
-        document.getElementById("activecolor").value = this.style.backgroundColor;
-        document.getElementById("activecolor").style.backgroundColor = this.style.backgroundColor;
+        document.getElementById("colorpickerbtn").value = this.style.backgroundColor;
+        document.getElementById("colorpickerbtn").style.backgroundColor = this.style.backgroundColor;
     });
 }
 
 function change_background_color(){
     "use strict";
-    var colorpick = document.getElementById("activecolor").value;
+    var colorpick = document.getElementById("colorpickerbtn").value;
     var selected_id = get_selected_nodeid();
     if(!selected_id){prompt_info('Please select a node first.');return;}
     _jm.set_node_color(selected_id, colorpick, null);       
 }
 
-function color_picker(){
+function open_color_picker(){
     "use strict";    
-    if (document.getElementById("colorpicker").style.display === 'block') {
-        document.getElementById("colorpicker").style.display = 'none';
-        document.getElementById("colorpickerbtn").innerHTML = '<img src="images/glyphicons-368-expand.png">';
-    } else {
-        document.getElementById("colorpicker").style.display = 'block';
-        document.getElementById("colorpickerbtn").innerHTML = '<img src="images/glyphicons-370-collapse-top.png">';
-    }
+    document.getElementById("colorpicker").style.display = "block";
+}
+
+function close_color_picker(){
+    "use strict";    
+    document.getElementById("colorpicker").style.display = "none";
 }
 
 function change_background_image(){
@@ -328,6 +327,7 @@ function change_container(widthsize){
 }
 
 
+
 function setlayout() {
     "use strict";
     var w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
@@ -420,16 +420,6 @@ function prompt_info(msg){
     "use strict";
     alert(msg);
 }
-
-function filesmenu() {
-    "use strict";
-    if (document.getElementById("export_import").style.display === 'block') {
-        document.getElementById("export_import").style.display = 'none';
-    } else {
-        document.getElementById("export_import").style.display = 'block';
-    }
-}
-
 
 
 function get_map_info() {
@@ -653,42 +643,38 @@ function savemap() {
 }
 
 
+var openSlider = document.getElementById("openSliderbtn"),
+    slide = document.querySelector(".slide"),
+    closeSlider = document.getElementById("closeSliderbtn"),
+    mapslistingdiv = document.getElementById("mapslistingdiv");
 
-function show_list_search(obj, from, to) {
-    "use strict";
-    obj.style.display = 'block';
-    if (from <= to) {         
-       obj.style.marginLeft = from + "px";
-       setTimeout(function() {
-           show_list_search(obj, from + 10, to);
-       }, 10) 
-    } else {
-        return;
-    }
-}
-function hide_list_search(obj, from, to){
-    "use strict";
-   if (from <= to) {         
-       obj.style.display = 'none';
-       return;  
-   } else {
-       obj.style.marginLeft = from + "px";
-       setTimeout(function() {
-           hide_list_search(obj, from - 10, to);
-       }, 10) 
-   }
-}
+openSlider.addEventListener("click",  function () {
+    mapslistingdiv.style.zIndex = 2000;
+    slide.classList.remove("slide-up");
+});
 
+closeSlider.addEventListener("click", function () {
+    slide.classList.add("slide-up");
+    setTimeout(function () {
+        mapslistingdiv.style.zIndex = -2000;
+    }, 800);
+});
+
+
+function open_export_import() {
+    "use strict";
+    document.getElementById("export_import").style.display = "block";
+}
 
 function close_export_import() {
     "use strict";
-    document.getElementById("export_import").style.display = 'none';
+    document.getElementById("export_import").style.display = "none";
 }
 
 
 function close_info() {
     "use strict";
-    document.getElementById("info").style.display = 'none';
+    document.getElementById("info").style.display = "none";
 }
 
 function showinfo() {

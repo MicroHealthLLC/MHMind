@@ -8,47 +8,48 @@
     <link type="text/css" rel="stylesheet" href="style/mind_style.css" />
 </head>
 <body onunload="saveMHMind()">
-<div id="layout">
-    <div id="list_search">
-        <p><button class="iconbtn maplistbtn" title="Close Listing Search Panel" onclick="hide_list_search(list_search, 0, -400);"><img src="images/glyphicons-369-collapse.png" class="flipimg"></button> <span id="list_name"><span id="mh">MH</span>Mind</span></p>
-        <input type="search" id="searchmaps" name="searchmaps" />
-        <button id="searchbtn" class="flrtbtn iconbtn maplistbtn" title="Search Listing" onclick="findmap();"><img src="images/glyphicons-28-search.png" class="wh18x18"></button>
-        <div id="maplisting">
+    <div id="layout">
+       <div id="jsmind_nav">
+            <div id="file_menu">
+                <button id="openSliderbtn" class="iconbtn" title="Open Maps Listing and Search Panel"><img src="images/glyphicons-115-list.png" class="wh20x18"></button>
+                <button class="iconbtn" title="New Map" onclick="newmap();"><img src="images/glyphicons-703-file-plus.png" class="wh21x20"></button>
+                <button class="iconbtn" title="Save Map" id="savebtn" onclick="savemap();"><img src="images/glyphicons-447-floppy-save.png" class="wh19x19"></button>
+                <button class="iconswbtn" title="Open Import Export Panel" onclick="open_export_import();"><img src="images/glyphicons-359-file-import.png" class="wh18x19"> <img src="images/glyphicons-360-file-export.png" class="wh18x19"></button>
+                <button class="iconswbtn" title="Toggle Map Editing Disabled or Enabled" onclick="toggle_editable(this);"><img src="images/glyphicons-199-ok-circle.png" class="wh22x22"> <img src="images/glyphicons-31-pencil.png" class="wh18x18"></button>
+                <button class="iconbtn" id="zoom-in-button" title="Zoom In" onclick="zoomIn();"><img src="images/glyphicons-215-resize-small.png" class="wh18x18"></button>
+                <button class="iconbtn" id="zoom-out-button" title="Zoom Out" onclick="zoomOut();"><img src="images/glyphicons-216-resize-full.png" class="wh18x18"></button>
+            </div>
+            <div id="expand_level">
+                <button class="iconsbtn" title="Expand Children Nodes to Level 2" onclick="expand_to_level2();"><img src="images/glyphicons-388-log-out.png" class="wh18x15"> <img src="images/glyphicons-388-log-out.png" class="wh18x15"></button>
+                <button class="iconswbtn" title="Expand Children Nodes to Level 3" onclick="expand_to_level3();"><img src="images/glyphicons-388-log-out.png" class="wh18x15"> <img src="images/glyphicons-388-log-out.png" class="wh18x15"> <img src="images/glyphicons-388-log-out.png" class="wh18x15"></button>
+            </div>
+            <div id="nodes_menu">
+                <button class="iconsbtn" title="Add a Text Node" onclick="add_node();"><img src="images/glyphicons-433-plus.png" class="wh10x10"> <img src="images/glyphicons-154-unchecked.png"></button>
+                <button class="iconsbtn" title="Add an Image Node" onclick="add_image_node();"><img src="images/glyphicons-433-plus.png" class="wh10x10"> <img src="images/glyphicons-139-picture.png" class="wh20x18"></button>
+                <button class="iconsbtn" title="Edit Node Text" onclick="edit_node_text();"><img src="images/glyphicons-151-edit.png"></button>
+                <sup><button type="button" title="Open Colorpicker and Display Node Active Background Color" id="colorpickerbtn" value="#0000cd" onclick="open_color_picker();"/></button></sup>
+                <button class="iconbtn" id="changebgcolorbtn" title="Change Node Background Color to Active Color" onclick="change_background_color();"><img src="images/glyphicons-607-text-background.png" class="wh21x20"></button>
+                <button class="iconswbtn" title="Change Node Text Color Toggled Black or White" onclick="change_text_color();"><sup><strong>B/W</strong></sup> <img src="images/glyphicons-606-text-color.png" class="wh19x19"></button>
+                <button class="iconsbtn" title="Set Node as First Child" onclick="move_to_first();"><img src="images/glyphicons-154-unchecked.png"> <img src="images/glyphicons-188-more.png" class="wh12x4"></button>
+                <button class="iconsbtn" title="Set Node as Last Child" onclick="move_to_last();"><img src="images/glyphicons-188-more.png" class="wh12x4"> <img src="images/glyphicons-154-unchecked.png"></button>
+                <button class="iconsbtn" title="Remove This Node" onclick="remove_node();"><img src="images/glyphicons-208-remove.png" class="wh10x10"> <img src="images/glyphicons-154-unchecked.png"></button>
+                <button class="iconswbtn" title="Toggle Children Shown or Hidden" onclick="toggle();"><img src="images/glyphicons-545-eye-plus.png" class="wh26x18"> <img src="images/glyphicons-546-eye-minus.png" class="wh26x18"></button>
+                <button class="iconsbtn" title="Toggle All Children Nodes" id="collapse_expand_btn" onclick="collapse_expand_all();"><sup><img src="images/glyphicons-172-fast-backward.png" class="wh13x9"></sup> <img src="images/glyphicons-154-unchecked.png"></button>
+            </div>
         </div>
-        <div id="warndiv">
-            <p>* Warning: Default Topic</p>
-        </div>
-    </div>
-    <div id="jsmind_nav">
-        <div id="file_menu">
-            <button class="iconbtn" title="Map Listing" onclick="show_list_search(list_search, -400, 0);"><img src="images/glyphicons-115-list.png" class="wh20x18"></button>
-            <button class="iconbtn" title="New Map" onclick="newmap();"><img src="images/glyphicons-703-file-plus.png" class="wh21x20"></button>
-            <button class="iconbtn" title="Save Map" id="savebtn" onclick="savemap();"><img src="images/glyphicons-447-floppy-save.png" class="wh19x19"></button>
-            <button class="iconswbtn" title="Toggle Import Export Panel" onclick="filesmenu();"><img src="images/glyphicons-359-file-import.png" class="wh18x19"> <img src="images/glyphicons-360-file-export.png" class="wh18x19"></button>
-            <button class="iconswbtn" title="Toggle Map Editing Disabled or Enabled" onclick="toggle_editable(this);"><img src="images/glyphicons-199-ok-circle.png" class="wh22x22"> <img src="images/glyphicons-31-pencil.png" class="wh18x18"></button>
-            <button class="iconbtn" id="zoom-in-button" title="Zoom In" onclick="zoomIn();"><img src="images/glyphicons-215-resize-small.png" class="wh18x18"></button>
-            <button class="iconbtn" id="zoom-out-button" title="Zoom Out" onclick="zoomOut();"><img src="images/glyphicons-216-resize-full.png" class="wh18x18"></button>
-       </div>
-
-        <div id="expand_level">
-            <button class="iconsbtn" title="Expand Children Nodes to Level 2" onclick="expand_to_level2();"><img src="images/glyphicons-388-log-out.png" class="wh18x15"> <img src="images/glyphicons-388-log-out.png" class="wh18x15"></button>
-            <button class="iconswbtn" title="Expand Children Nodes to Level 3" onclick="expand_to_level3();"><img src="images/glyphicons-388-log-out.png" class="wh18x15"> <img src="images/glyphicons-388-log-out.png" class="wh18x15"> <img src="images/glyphicons-388-log-out.png" class="wh18x15"></button>
-        </div>
-        <div id="nodes_menu">
-            <button class="iconsbtn" title="Add a Text Node" onclick="add_node();"><img src="images/glyphicons-433-plus.png" class="wh10x10"> <img src="images/glyphicons-154-unchecked.png"></button>
-            <button class="iconsbtn" title="Add an Image Node" onclick="add_image_node();"><img src="images/glyphicons-433-plus.png" class="wh10x10"> <img src="images/glyphicons-139-picture.png" class="wh20x18"></button>
-            <button class="iconsbtn" title="Edit Node Text" onclick="edit_node_text();"><img src="images/glyphicons-151-edit.png"></button>
-            <sup><button type="button" id="activecolor" value="#0000cd"/></button></sup>
-            <button class="iconbtn" id="colorpickerbtn" title="Toggle Color Picker" onclick="color_picker();"><img src="images/glyphicons-368-expand.png"></button>
-            <button class="iconbtn" id="changebgcolorbtn" title="Change Background Color of Node to Selected Color" onclick="change_background_color();"><img src="images/glyphicons-607-text-background.png" class="wh21x20"></button>
-            <button class="iconswbtn" title="Change Node Text Color Toggled Black or White" onclick="change_text_color();"><sup><strong>B/W</strong></sup> <img src="images/glyphicons-606-text-color.png" class="wh19x19"></button>
-            <button class="iconsbtn" title="Set Node as First Child" onclick="move_to_first();"><img src="images/glyphicons-154-unchecked.png"> <img src="images/glyphicons-188-more.png" class="wh12x4"></button>
-            <button class="iconsbtn" title="Set Node as Last Child" onclick="move_to_last();"><img src="images/glyphicons-188-more.png" class="wh12x4"> <img src="images/glyphicons-154-unchecked.png"></button>
-            <button class="iconsbtn" title="Remove This Node" onclick="remove_node();"><img src="images/glyphicons-208-remove.png" class="wh10x10"> <img src="images/glyphicons-154-unchecked.png"></button>
-            <button class="iconswbtn" title="Toggle Children Shown or Hidden" onclick="toggle();"><img src="images/glyphicons-545-eye-plus.png" class="wh26x18"> <img src="images/glyphicons-546-eye-minus.png" class="wh26x18"></button>
-            <button class="iconsbtn" title="Toggle All Children Nodes" id="collapse_expand_btn" onclick="collapse_expand_all();"><sup><img src="images/glyphicons-172-fast-backward.png" class="wh13x9"></sup> <img src="images/glyphicons-154-unchecked.png"></button>
-        </div>
-    </div>
+        <div id="mapslistingdiv">
+            <div id="list_search" class="slide slide-up">
+                <p><span id="list_name"><span id="mh">MH</span>Mind</span></p>
+                <input type="search" id="searchmaps" name="searchmaps" />
+                <button class="flrtbtn iconbtn maplistbtn" title="Search Listing" onclick="findmap();"><img src="images/glyphicons-28-search.png" class="wh18x18"></button>
+                <div id="maplisting">
+                </div>
+                <button id="closeSliderbtn" class="iconbtn maplistbtn flrtbtn" title="Close Maps Listing and Search Panel"><img src="images/glyphicons-370-collapse-top.png" class="flipimg"></button><br>
+                <div id="warndiv">
+                    <p>* Warning: Default Topic</p>
+                </div>
+            </div>
+        </div>       
         <div id="export_import">
             <button class="flrtbtn iconbtn" title="Close Import Export Panel" onclick="close_export_import();"><img src="images/glyphicons-370-collapse-top.png"></button>
             <div id="expside">
@@ -62,37 +63,35 @@
                 <button class="iconbtn" title="Upload User JSON Map File" onclick="open_file();"><img src="images/glyphicons-202-upload.png" class="wh22x22"></button>
             </div>
         </div>
-
         <div id="colorpicker">
             <table>
                 <tbody id="selcolors">
                 </tbody>
             </table>
+            <button class="iconbtn flrtbtn" id="close_colorpicker" title="Toggle Color Picker Panel" onclick="close_color_picker();"><img src="images/glyphicons-370-collapse-top.png"></button>
         </div>
-
-</div>
-
+    </div>
 
     <div id="jsmind_container"></div>
     <div style="display:none">
       <input class="file" type="file" id="image-chooser" accept="image/*"/>
     </div>
 
-<div id="footer">
-    <button class="iconbtn" id="showinfobtn" title="Show Copyright Info" onclick="showinfo();"><img src="images/glyphicons-196-info-sign.png" class="wh22x22"></button>
-    <div id="info">
-        <p>Copyright &copy; 2014-2015, ZHANG ZHIGANG &#60;hizzgdev@163.com&#62;<br>
-        All rights reserved.</p>
-        <p>Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:</p>
-        <ul>
-            <li>Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.</li>
-            <li>Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.</li>
-            <li>Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.</li>
-        </ul>
-        <p>THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &ldquo;AS IS&rdquo; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
-        <button class="flrtbtn iconbtn" title="Close Info" onclick="close_info();"><img src="images/glyphicons-370-collapse-top.png"></button></p>
+    <div id="footer">
+        <button class="iconbtn" id="showinfobtn" title="Show Copyright Info" onclick="showinfo();"><img src="images/glyphicons-196-info-sign.png" class="wh22x22"></button>
+        <div id="info">
+            <p>Copyright &copy; 2014-2015, ZHANG ZHIGANG &#60;hizzgdev@163.com&#62;<br>
+            All rights reserved.</p>
+            <p>Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:</p>
+            <ul>
+                <li>Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.</li>
+                <li>Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.</li>
+                <li>Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.</li>
+            </ul>
+            <p>THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &ldquo;AS IS&rdquo; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
+            <button class="flrtbtn iconbtn" title="Close Info" onclick="close_info();"><img src="images/glyphicons-370-collapse-top.png"></button></p>
+        </div>
     </div>
-</div>
 
 <script type="text/javascript" src="js/jsmind.js"></script>
 <script type="text/javascript" src="js/jsmind.draggable.js"></script>
