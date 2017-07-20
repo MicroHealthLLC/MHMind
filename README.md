@@ -1,3 +1,5 @@
+#MHMind
+
 <p>The MHMind app uses jsMind, a JavaScript version of mind mapping.</p>
 
 <p>https://github.com/hizzgdev/jsmind<br>
