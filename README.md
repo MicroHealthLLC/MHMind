@@ -1,4 +1,4 @@
-#MHMind
+<h1>MHMind</h1>
 
 <p>The MHMind app uses jsMind, a JavaScript version of mind mapping.</p>
 
